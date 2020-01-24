@@ -71,7 +71,7 @@ router.get('/smartsheet',(req,res)=>{
         }
         res.status(200).json({
             message: "success",
-            data:data.data,
+            data:data,
         })
     })
     .catch(err=>{
