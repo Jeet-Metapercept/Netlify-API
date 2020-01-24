@@ -61,7 +61,7 @@ router.get('/fetch',(req,res)=>{
     })
 })
 
-router.get('/fetch',(req,res)=>{
+router.get('/smartsheet',(req,res)=>{
    smartsheet.sheets.getSheet({id: 6051615279998852})
     .then(data =>{
         if(!data){
