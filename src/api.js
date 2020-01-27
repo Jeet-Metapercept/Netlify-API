@@ -15,7 +15,7 @@ app.use(cors())
 // Initialize the client
 var client = require('smartsheet');
 var smartsheet = client.createClient({
-  accessToken: '26ewfyvoncsebvkpke6bne8o95',
+  accessToken: 'mrmylpx8kxsjqu60qz2za50fis',//26ewfyvoncsebvkpke6bne8o95
   logLevel: 'info'
 });
 
@@ -63,8 +63,9 @@ router.get('/fetch',(req,res)=>{
     })
 })
 
+// 6051615279998852
 router.get('/smartsheet',(req,res)=>{
-   smartsheet.sheets.getSheet({id: 6051615279998852})
+   smartsheet.sheets.getSheet({id: 3493257880594308})
     .then(data =>{
         if(!data){
             return res.status(404).json({
@@ -73,7 +74,7 @@ router.get('/smartsheet',(req,res)=>{
         }
         res.status(200).json({
             message: "success",
-            data:data,
+            data:data
         })
     })
     .catch(err=>{
