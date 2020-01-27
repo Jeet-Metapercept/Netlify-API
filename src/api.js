@@ -8,7 +8,9 @@ const router = express.Router();
 
 const axios = require('axios');
 
+const cors = require('cors');
 
+app.use(cors())
 
 // Initialize the client
 var client = require('smartsheet');
