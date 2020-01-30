@@ -124,57 +124,6 @@ router.get('/smartsheet/:country',(req,res)=>{
 })
 
 
-router.get('/tryagain/:title/:content',(req,res)=>{
-
-    const titlevalue = req.params.title;
-    const bodyvalue = req.params.content;
-
-    var bodyData = `{
-        "id":"8093825",
-        "title":"${titlevalue}",
-        "type":"page",
-        "space":{"key":"PROPAGE"},
-        "status":"current","ancestors":[],
-        "body":{
-            "storage":{
-                "_expandable":{
-                    "content":"/rest/api/content/8093825"
-                },
-                "representation":"storage",
-                "value": "${bodyvalue}"
-            }
-        }
-    }`;
-   
-    
-    //res.send(bodyData)
-    var options = {
-        method: 'POST',
-        url: 'https://yapihew.atlassian.net/wiki/rest/api/content',
-        headers: {
-           'Content-Type': 'application/json',
-           'Authorization': 'Basic eWFwaWhldzY3NUBtYWlsZmlsZS5vcmc6ZDA5Y0hIeEhCMVdlbWM2RzVLemVBNUUw'
-        },
-        body: bodyData
-     };
-     
-     request(options, function (error, response, body) {
-        //if (error) throw new Error(error);
-        if (error) {
-           // throw new Error(error);
-            res.json({
-                 message :"erroor : ",error
-             });
-        }
-        console.log(
-           'Response: ' + response.statusCode + ' ' + response.statusMessage
-        );
-        console.log(body);
-        res.send(body)
-     });
-
-})
-
 // Confulence Create page 
 router.get('/confluence/:countryName/:countryCode',(req,res)=>{
 
