@@ -190,7 +190,7 @@ router.get('/confluence/:countryName/:countryCode',(req,res)=>{
                 console.log(
                    'Response: ' + response.statusCode + ' ' + response.statusMessage
                 );
-               // console.log(body);
+              
                 // res.send(body)
                 res.status(200).json({
                     message: "Page " + req.params.countryName + "successfully created.",
