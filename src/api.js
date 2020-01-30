@@ -127,14 +127,14 @@ router.get('/smartsheet/:country',(req,res)=>{
 // Confulence Create page 
 router.get('/confluence/:countryName/:countryCode',(req,res)=>{
 
-    var templateId = 7733501
+    var templateId = 83263539;
     //getting template with id
     var options = {
         method: 'GET',
-        url: 'https://yapihew.atlassian.net/wiki/rest/api/template/'+templateId,
+        url: 'https://strykercpib.atlassian.net/wiki/rest/api/template/'+templateId,
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Basic eWFwaWhldzY3NUBtYWlsZmlsZS5vcmc6ZDA5Y0hIeEhCMVdlbWM2RzVLemVBNUUw'
+            'Authorization': 'Basic cmF5QGFwcG1haXN0ZXJzLmNvbTpqcXpFcWlRVEl2MTlKSDBXeHdrczNGOTE='
         }
     }
  
@@ -142,7 +142,7 @@ router.get('/confluence/:countryName/:countryCode',(req,res)=>{
  
             if (error) {
                  res.json({
-                     message :"erroor : ",error
+                     message :"error : ",error
                  })
             }
            
@@ -156,16 +156,12 @@ router.get('/confluence/:countryName/:countryCode',(req,res)=>{
         resbody = resbody.replace(/uniquecountryname/g,req.params.countryName);
 
             var bodyData = `{
-                "id":"8093825",
                 "title":"${req.params.countryName}",
                 "type":"page",
-                "space":{"key":"PROPAGE"},
+                "space":{"key":"PS"},
                 "status":"current","ancestors":[],
                 "body":{
                     "storage":{
-                        "_expandable":{
-                            "content":"/rest/api/content/8093825"
-                        },
                         "representation":"storage",
                         "value": ${resbody}
                     }
@@ -175,10 +171,10 @@ router.get('/confluence/:countryName/:countryCode',(req,res)=>{
            // create page with template body
             var options_for_page = {
                 method: 'POST',
-                url: 'https://yapihew.atlassian.net/wiki/rest/api/content',
+                url: 'https://strykercpib.atlassian.net/wiki/rest/api/content',
                 headers: {
                    'Content-Type': 'application/json',
-                   'Authorization': 'Basic eWFwaWhldzY3NUBtYWlsZmlsZS5vcmc6ZDA5Y0hIeEhCMVdlbWM2RzVLemVBNUUw'
+                   'Authorization': 'Basic cmF5QGFwcG1haXN0ZXJzLmNvbTpqcXpFcWlRVEl2MTlKSDBXeHdrczNGOTE='
                 },
                 body: bodyData
              };
@@ -188,7 +184,7 @@ router.get('/confluence/:countryName/:countryCode',(req,res)=>{
                 if (error) {
                    // throw new Error(error);
                     res.json({
-                         message :"erroor : ",error
+                         message :"error : ",error
                      });
                 }
                 console.log(
