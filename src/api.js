@@ -8,6 +8,8 @@ const router = express.Router();
 
 const axios = require('axios');
 
+const request = require('request');
+
 const cors = require('cors');
 
 app.use(cors())
@@ -15,7 +17,7 @@ app.use(cors())
 // Initialize the client
 var client = require('smartsheet');
 var smartsheet = client.createClient({
-  accessToken: 'mrmylpx8kxsjqu60qz2za50fis',//26ewfyvoncsebvkpke6bne8o95
+  accessToken: '26ewfyvoncsebvkpke6bne8o95',
   logLevel: 'info'
 });
 
@@ -63,9 +65,8 @@ router.get('/fetch',(req,res)=>{
     })
 })
 
-// 6051615279998852
 router.get('/smartsheet',(req,res)=>{
-   smartsheet.sheets.getSheet({id: 3493257880594308})
+   smartsheet.sheets.getSheet({id: 6051615279998852})
     .then(data =>{
         if(!data){
             return res.status(404).json({
@@ -74,7 +75,7 @@ router.get('/smartsheet',(req,res)=>{
         }
         res.status(200).json({
             message: "success",
-            data:data
+            data:data,
         })
     })
     .catch(err=>{
@@ -85,6 +86,121 @@ router.get('/smartsheet',(req,res)=>{
     })
 })
 
+
+// var countryName = 'US';
+router.get('/smartsheet/:country',(req,res)=>{
+
+	   
+	    var countryName = req.params.country;
+		
+		
+		CountryDataNames = [
+			{ "id": "tt0110357", "name": "The Lion King", "genre": "animation", "country": "US"},
+			{ "id": "tt0068646", "name": "The Godfather", "genre": "crime",  "country": "IN"},
+			{ "id": "tt0468569", "name": "The Dark Knight", "genre": "action",  "country": "Japan"},
+		]
+		const itemfind = CountryDataNames.find(i => i.country === countryName);
+		
+		function givedata(){
+			return CountryDataNames.find(i => i.country === countryName)
+		}
+		
+		if (itemfind) {
+			res.status(200).json({
+				message: "success",
+				data:itemfind
+			})
+		} else {
+		  res.json({ message: `Country ${countryName} doesn't exist`})
+		}
+		
+})
+
+
+// Confulence Create page 
+router.post('/confluence/:countryName/:countryCode',(req,res)=>{
+
+    var templateId = 7733501
+    //getting template with id
+    var options = {
+        method: 'GET',
+        url: 'https://yapihew.atlassian.net/wiki/rest/api/template/'+templateId,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Basic eWFwaWhldzY3NUBtYWlsZmlsZS5vcmc6ZDA5Y0hIeEhCMVdlbWM2RzVLemVBNUUw'
+        }
+    }
+ 
+     request(options,function(error,response,body){
+ 
+            if (error) {
+                 res.json({
+                     message :"erroor : ",error
+                 })
+            }
+           
+           // console.log(body);
+
+        const templateData = JSON.parse(body); //to access inside object
+        var temp = JSON.stringify(templateData.body.storage.value);
+
+        // changing Variable
+        var resbody = temp.replace(/uniquecountrycode/g, req.params.countryCode);
+        resbody = resbody.replace(/uniquecountryname/g,req.params.countryName);
+
+            var bodyData = `{
+                "id":"8093825",
+                "title":"${req.params.countryName}",
+                "type":"page",
+                "space":{"key":"PROPAGE"},
+                "status":"current","ancestors":[],
+                "body":{
+                    "storage":{
+                        "_expandable":{
+                            "content":"/rest/api/content/8093825"
+                        },
+                        "representation":"storage",
+                        "value": ${resbody}
+                    }
+                }
+            }`;
+           
+           // create page with template body
+            var options_for_page = {
+                method: 'POST',
+                url: 'https://yapihew.atlassian.net/wiki/rest/api/content',
+                headers: {
+                   'Content-Type': 'application/json',
+                   'Authorization': 'Basic eWFwaWhldzY3NUBtYWlsZmlsZS5vcmc6ZDA5Y0hIeEhCMVdlbWM2RzVLemVBNUUw'
+                },
+                body: bodyData
+             };
+             
+             request(options_for_page, function (error, response, body) {
+                //if (error) throw new Error(error);
+                if (error) {
+                   // throw new Error(error);
+                    res.json({
+                         message :"erroor : ",error
+                     });
+                }
+                console.log(
+                   'Response: ' + response.statusCode + ' ' + response.statusMessage
+                );
+               // console.log(body);
+                // res.send(body)
+                res.status(200).json({
+                    message: "Page " + req.params.countryName + "successfully created.",
+                    data: body
+                })
+             });
+
+
+     });
+         
+     
+   
+})
 
 app.use('/.netlify/functions/api', router);
 
