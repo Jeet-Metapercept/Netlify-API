@@ -181,9 +181,7 @@ router.get('/confluence/:countryName/:countryCode', (req, res) => {
                 "type":"page",
                 "space":{"key":"PS"},
                 "status":"current",
-                "ancestors": [{
-                    "id": "20611175"
-                  }],
+                "ancestors": [],
                 "body":{
                     "storage":{
                         "representation":"storage",
