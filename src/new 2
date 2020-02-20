@@ -1,0 +1,16 @@
+
+renamer -p case --case camel *
+( possible values: camel, kebab, lower, upper, snake, start )
+
+renamer -d --find "/^/" --replace "good-" "*"
+
+
+
+
+Prefix files and folders, recursively
+$ renamer -d --find "/^/" --replace "good-" "**"
+
+
+Current file name convention:
+Payment_Systems_batch_perform_change_in_requested_execution_date -> C_BatchPerformChangeInRequestedExecutionDate
+Payment_Systems_batch_link_network_directory_criteria - > C_BatchLinkNetworkDirectoryCriteria
